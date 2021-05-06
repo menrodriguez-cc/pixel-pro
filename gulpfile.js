@@ -1,20 +1,36 @@
 // Dependencias
 var gulp = require("gulp"),
   minifycss = require("gulp-minify-css"),
-  deploy = require("gulp-gh-pages");
+  deploy = require("gulp-gh-pages"),
+  del = require("del");
 
-gulp.task("copy", function () {
-  gulp.src("./**/*").pipe(gulp.dest("dist/"));
+gulp.task("clean", function () {
+  return del("docs/**", { force: true });
 });
 
-gulp.task("minify-css", function () {
-  gulp.src("css/*.css").pipe(minifycss()).pipe(gulp.dest("dist/"));
+gulp.task("copy-html", async function () {
+  gulp.src(["./**/*.html"]).pipe(gulp.dest("docs/"));
 });
 
-gulp.task("build", ["copy", "minify-css"], function () {
-  gulp.src("css/*.css").pipe(minifycss()).pipe(gulp.dest("dist/"));
+gulp.task("copy-assets", async function () {
+  gulp.src(["./img/**/*"], { base: "./" }).pipe(gulp.dest("docs/"));
 });
 
-gulp.task("deploy", ["build"], function () {
-  return gulp.src("./dist/**/*").pipe(deploy());
+gulp.task("minify-css", async function () {
+  gulp
+    .src("css/*.css", { base: "./" })
+    .pipe(minifycss())
+    .pipe(gulp.dest("docs/"));
 });
+
+gulp.task(
+  "build",
+  gulp.series("clean", "copy-html", "copy-assets", "minify-css")
+);
+
+gulp.task(
+  "deploy",
+  gulp.series("build", async function () {
+    return gulp.src("docs/**/*").pipe(deploy());
+  })
+);

@@ -4,11 +4,14 @@
   "description": "",
   "main": "gulpfile.js",
   "scripts": {
+    "build": "npx gulp build",
+    "deploy": "npx gulp deploy",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "del": "^6.0.0",
     "gulp": "^4.0.2",
     "gulp-gh-pages": "^0.5.4",
     "gulp-minify-css": "^1.2.4"
