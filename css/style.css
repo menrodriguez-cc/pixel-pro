@@ -222,7 +222,7 @@ nav > ul > li {
 
 .quienesSomos img {
   float: left;
-  margin: 0 1rem;
+  padding: 0 1rem;
 }
 
 @media (max-width: 540px) {
