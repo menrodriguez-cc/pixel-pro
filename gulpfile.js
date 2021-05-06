@@ -31,10 +31,6 @@ gulp.task(
 gulp.task(
   "deploy",
   gulp.series("build", async function () {
-    return gulp.src("docs/**/*").pipe(
-      deploy({
-        branch: master,
-      })
-    );
+    return gulp.src("docs/**/*").pipe(deploy());
   })
 );
